@@ -1,0 +1,14 @@
+{
+  "name": "sync-sparrow",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev:web": "pnpm --filter @sync-sparrow/web dev"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
