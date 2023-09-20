@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev:web": "pnpm --filter @sync-sparrow/web dev"
+    "dev:web": "pnpm --filter @sync-sparrow/web dev",
+    "dev:server": "pnpm --filter @sync-sparrow/server dev"
   },
   "keywords": [],
   "author": "",

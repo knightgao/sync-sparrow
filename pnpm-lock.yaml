@@ -38,10 +38,16 @@ importers:
 
   packages/web:
     dependencies:
+      socket.io-client:
+        specifier: ^4.7.2
+        version: 4.7.2
       vue:
         specifier: ^3.3.4
         version: 3.3.4
     devDependencies:
+      '@types/node':
+        specifier: ^20.6.2
+        version: 20.6.2
       '@vitejs/plugin-vue':
         specifier: ^4.3.4
         version: 4.3.4(vite@4.4.9)(vue@3.3.4)
@@ -53,7 +59,7 @@ importers:
         version: 5.2.2
       vite:
         specifier: ^4.4.9
-        version: 4.4.9(sass@1.67.0)
+        version: 4.4.9(@types/node@20.6.2)(sass@1.67.0)
       vue-tsc:
         specifier: ^1.8.11
         version: 1.8.11(typescript@5.2.2)
@@ -440,7 +446,6 @@ packages:
 
   /@types/node@20.6.2:
     resolution: {integrity: sha512-Y+/1vGBHV/cYk6OI1Na/LHzwnlNCAfU3ZNGrc1LdRe/LAIbdDPTTv/HU3M7yXN448aTVDq3eKRm2cg7iKLb8gw==}
-    dev: false
 
   /@types/qs@6.9.8:
     resolution: {integrity: sha512-u95svzDlTysU5xecFNTgfFG5RUWu1A9P0VzgpcIiGZA9iraHOdSzcxMxQ55DyeRaGCSxQi7LxXDI4rzq/MYfdg==}
@@ -472,7 +477,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.4.9(sass@1.67.0)
+      vite: 4.4.9(@types/node@20.6.2)(sass@1.67.0)
       vue: 3.3.4
     dev: true
 
@@ -772,6 +777,20 @@ packages:
   /encodeurl@1.0.2:
     resolution: {integrity: sha512-TPJXq8JqFaVYm2CWmPvnP2Iyo4ZSM7/QKcSmuMLDObfpH5fi7RUGmd/rTDf+rut/saiDiQEeVTNgAmJEdAOx0w==}
     engines: {node: '>= 0.8'}
+    dev: false
+
+  /engine.io-client@6.5.2:
+    resolution: {integrity: sha512-CQZqbrpEYnrpGqC07a9dJDz4gePZUgTPMU3NKJPSeQOyw27Tst4Pl3FemKoFGAlHzgZmKjoRmiJvbWfhCXUlIg==}
+    dependencies:
+      '@socket.io/component-emitter': 3.1.0
+      debug: 4.3.4
+      engine.io-parser: 5.2.1
+      ws: 8.11.0
+      xmlhttprequest-ssl: 2.0.0
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
     dev: false
 
   /engine.io-parser@5.2.1:
@@ -1159,6 +1178,20 @@ packages:
       - utf-8-validate
     dev: false
 
+  /socket.io-client@4.7.2:
+    resolution: {integrity: sha512-vtA0uD4ibrYD793SOIAwlo8cj6haOeMHrGvwPxJsxH7CeIksqJ+3Zc06RvWTIFgiSqx4A3sOnTXpfAEE2Zyz6w==}
+    engines: {node: '>=10.0.0'}
+    dependencies:
+      '@socket.io/component-emitter': 3.1.0
+      debug: 4.3.4
+      engine.io-client: 6.5.2
+      socket.io-parser: 4.2.4
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+    dev: false
+
   /socket.io-parser@4.2.4:
     resolution: {integrity: sha512-/GbIKmo8ioc+NIWIhwdecY0ge+qVBSMdgxGygevmdHj24bsfgtCmcUUcQ5ZzcylGFHsN3k4HB4Cgkl96KVnuew==}
     engines: {node: '>=10.0.0'}
@@ -1274,7 +1307,7 @@ packages:
     engines: {node: '>= 0.8'}
     dev: false
 
-  /vite@4.4.9(sass@1.67.0):
+  /vite@4.4.9(@types/node@20.6.2)(sass@1.67.0):
     resolution: {integrity: sha512-2mbUn2LlUmNASWwSCNSJ/EG2HuSRTnVNaydp6vMCm5VIqJsjMfbIWtbH2kDuwUVW5mMUKKZvGPX/rqeqVvv1XA==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1302,6 +1335,7 @@ packages:
       terser:
         optional: true
     dependencies:
+      '@types/node': 20.6.2
       esbuild: 0.18.20
       postcss: 8.4.29
       rollup: 3.29.2
@@ -1349,6 +1383,11 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dev: false
+
+  /xmlhttprequest-ssl@2.0.0:
+    resolution: {integrity: sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==}
+    engines: {node: '>=0.4.0'}
     dev: false
 
   /yallist@4.0.0:
