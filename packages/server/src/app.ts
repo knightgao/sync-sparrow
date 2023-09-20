@@ -2,13 +2,16 @@ import Koa from 'koa';
 import http from 'http';
 import { Server } from "socket.io";
 import Router from '@koa/router';
+import game from './middlewares/game';
 
 const app = new Koa();
 const server = http.createServer(app.callback());
 const io = new Server(server, {
     cors: {
         origin: "*"
-    }
+    },
+    pingTimeout: 10000,
+    pingInterval: 5000,
 });
 const router = new Router();
 
@@ -25,15 +28,11 @@ router.get('/', async (ctx) => {
 io.on('connection', (socket) => {
     console.log('A user connected');
 
-    socket.on('game-room', (data) => {
-        console.log(`Received message: ${data}`);
-        // 在这里处理从客户端接收到的消息，并发送回客户端等操作
-
-    });
-
     socket.on('disconnect', () => {
         console.log('A user disconnected');
     });
+
+    socket.use(game(socket));
 });
 
 server.listen(3000, () => {

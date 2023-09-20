@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es6",
     "strict": true,
+    "baseUrl": "./",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
@@ -17,5 +18,9 @@
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts"
   ]
 }
