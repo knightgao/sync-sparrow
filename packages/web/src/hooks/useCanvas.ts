@@ -1,4 +1,4 @@
-import {computed, onMounted, Ref, ref, ShallowRef, shallowRef} from "vue";
+import {computed, onMounted, Ref, ref, ShallowRef, shallowRef, watch} from "vue";
 
 export function useCanvas(dom: string | HTMLCanvasElement, {
     initWidth = 500,
@@ -16,7 +16,7 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
     })
 
     // 保存绘制轨迹的栈
-    const pathStack: ShallowRef<Array<Array<{ x: number; y: number; }>>> = shallowRef([]);
+    const pathStack: Ref<Array<Array<{ x: number; y: number; }>>> = ref([]);
     // 当前绘制的轨迹
     const currentPath: Ref<Array<{ x: number; y: number; }>> = ref([]);
     // 保存撤销的轨迹
@@ -63,7 +63,7 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
     function addPath() {
         redoStack.value = []; // 清空重做栈
         if (currentPath.value) {
-            pathStack.value.push(currentPath.value);
+            pathStack.value.push([...currentPath.value]);
             currentPath.value = [];
         }
         drawPath();
@@ -109,5 +109,21 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
         link.click();
     }
 
-    return {handleUndo, handleRedo, handleExport}
+    // 绘画路径
+    const drawPathShow = ref();
+    // TODO 待优化
+    watch([pathStack],function (){
+        drawPathShow.value = JSON.parse(JSON.stringify(pathStack.value));
+    },{
+        deep:true
+    })
+
+    // 设置回显数据
+    const setPathStack = (value)=>{
+        pathStack.value = value;
+        drawPath();
+    }
+
+
+    return {handleUndo, handleRedo, handleExport,drawPathShow,setPathStack}
 }
