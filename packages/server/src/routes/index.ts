@@ -2,11 +2,11 @@ import Router from "@koa/router";
 import type {RouterContext} from "@koa/router";
 
 // 导入所有路由处理器
-import { homeHandler } from './home';
+import { userHandler } from './user';
 
 // 定义路由映射
-const routes: { method: string, path: string, handler: (ctx: RouterContext) => Promise<any> }[] = [
-  { method: 'GET', path: '/11', handler: homeHandler },
+const routes = [
+  { method: 'GET', path: '/', handler: userHandler },
   // 添加更多路由...
 ];
 

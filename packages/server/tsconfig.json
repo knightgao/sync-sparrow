@@ -3,6 +3,7 @@
     "target": "ES2022",
     "strict": true,
     "baseUrl": "./",
+    "outDir": "./dist",
     "moduleResolution": "node",
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
