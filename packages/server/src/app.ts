@@ -31,8 +31,6 @@ io.on('connection', (socket) => {
         console.log('A user disconnected');
     });
 
-    // TODO: 房间加入优化,放中间件不行
-    socket.join(`game-room-1`);
     socket.use(game(socket));
 });
 

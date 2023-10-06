@@ -9,7 +9,7 @@ const gameName = 'game-room-1';
 const { isConnected, socket } = useSocket();
 onMounted(
     () => {
-      console.log('onMounted');
+      socket.emit(gameName, "" );
     }
 )
 
