@@ -16,11 +16,14 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
     })
 
     // 保存绘制轨迹的栈
-    const pathStack: Ref<Array<Array<{ x: number; y: number; }>>> = ref([]);
+    let pathStack: Array<Array<{ x: number; y: number; }>> = [];
     // 当前绘制的轨迹
-    const currentPath: Ref<Array<{ x: number; y: number; }>> = ref([]);
+    let currentPath: Array<{ x: number; y: number; }> = [];
     // 保存撤销的轨迹
-    const redoStack: ShallowRef<Array<Array<{ x: number; y: number; }>>> = shallowRef([]);
+    let redoStack: Array<Array<{ x: number; y: number; }>> = [];
+
+    // 绘画路径
+    const drawPathShow = shallowRef();
 
     // 初始化画布
     onMounted(() => {
@@ -36,7 +39,7 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
         ctx.value = canvas.value.getContext("2d");
         canvas.value.addEventListener("mousedown", (e: MouseEvent) => {
             const {offsetX, offsetY} = e;
-            currentPath.value.push({x: offsetX, y: offsetY});
+            currentPath.push({x: offsetX, y: offsetY});
             canvas.value.addEventListener("mousemove", handleMouseMove);
             canvas.value.addEventListener("mouseup", handleMouseUp);
         });
@@ -46,7 +49,7 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
     function drawPath() {
         const _ctx = ctx.value;
         _ctx.clearRect(0, 0, width.value, height.value); // 清空画板
-        for (const path of [...pathStack.value, currentPath.value]) {
+        for (const path of [...pathStack, currentPath]) {
             _ctx.beginPath();
             for (let i = 0; i < path.length; i++) {
                 const {x, y} = path[i];
@@ -61,17 +64,18 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
     }
 
     function addPath() {
-        redoStack.value = []; // 清空重做栈
-        if (currentPath.value) {
-            pathStack.value.push([...currentPath.value]);
-            currentPath.value = [];
+        redoStack = []; // 清空重做栈
+        if (currentPath.length > 0) {
+            pathStack.push([...currentPath]);
+            drawPathShow.value = [...pathStack];
+            currentPath = [];
         }
         drawPath();
     }
 
     function handleMouseMove(e: MouseEvent) {
         const {offsetX, offsetY} = e;
-        currentPath.value.push({x: offsetX, y: offsetY});
+        currentPath.push({x: offsetX, y: offsetY});
         drawPath();
     }
 
@@ -83,19 +87,21 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
 
     // 撤销
     const handleUndo = () => {
-        if (pathStack.value.length > 0) {
-            const undonePath = pathStack.value.pop();
+        if (pathStack.length > 0) {
+            const undonePath = pathStack.pop();
+            drawPathShow.value = [...pathStack];
             if (!undonePath) return;
-            redoStack.value.push(undonePath);
+            redoStack.push(undonePath);
             drawPath();
         }
     }
     // 重做
     const handleRedo = () => {
-        if (redoStack.value.length > 0) {
-            const redonePath = redoStack.value.pop();
+        if (redoStack.length > 0) {
+            const redonePath = redoStack.pop();
             if (!redonePath) return;
-            pathStack.value.push(redonePath);
+            pathStack.push(redonePath);
+            drawPathShow.value = [...pathStack];
             drawPath();
         }
     }
@@ -109,19 +115,16 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
         link.click();
     }
 
-    // 绘画路径
-    const drawPathShow = ref();
-    // TODO 待优化
-    watch([pathStack],function (){
-        drawPathShow.value = JSON.parse(JSON.stringify(pathStack.value));
-    },{
-        deep:true
-    })
+
+ 
 
     // 设置回显数据
-    const setPathStack = (value)=>{
-        pathStack.value = value;
-        drawPath();
+    const setPathStack = (value:any)=>{
+        if(value){
+            pathStack = value;
+            drawPathShow.value = [...pathStack];
+            drawPath();
+        }
     }
 
 
