@@ -1,13 +1,7 @@
 <script setup lang="ts">
-import MyCanvas from "./components/myCanvas.vue";
-
-
+import { RouterView } from 'vue-router';
 </script>
 
 <template>
-  <div>
-     <my-canvas></my-canvas>
-  </div>
+  <RouterView />
 </template>
-
-

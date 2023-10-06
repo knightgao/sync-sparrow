@@ -1,14 +1,19 @@
 <script setup lang="ts">
-import {useCanvas} from "../hooks/useCanvas.ts";
-import { useSocket } from "@/hooks/useSocket.ts";
+import {useCanvas} from "@/hooks/useCanvas";
+import { useSocket } from "@/hooks/useSocket";
 import {onMounted, ref, watch} from "vue";
+import { useRoute } from "vue-router";
 const {handleUndo, handleRedo, handleExport,drawPathShow,setPathStack} = useCanvas("myCanvas");
 
-//TODO 抽出去
-const gameName = 'game-room-1';
+const route = useRoute();
+
+let gameName = 'game-room-1';
 const { isConnected, socket } = useSocket();
 onMounted(
     () => {
+      if(route.params.id){
+        gameName = `game-room-${route.params.id}`;
+      }
       socket.emit(gameName, "" );
     }
 )

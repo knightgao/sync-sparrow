@@ -1,4 +1,4 @@
-import {computed, onMounted, Ref, ref, ShallowRef, shallowRef, watch} from "vue";
+import { computed, onMounted, ref, shallowRef, watch } from "vue";
 
 export function useCanvas(dom: string | HTMLCanvasElement, {
     initWidth = 500,
@@ -38,8 +38,8 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
         canvas.value.height = initHeight;
         ctx.value = canvas.value.getContext("2d");
         canvas.value.addEventListener("mousedown", (e: MouseEvent) => {
-            const {offsetX, offsetY} = e;
-            currentPath.push({x: offsetX, y: offsetY});
+            const { offsetX, offsetY } = e;
+            currentPath.push({ x: offsetX, y: offsetY });
             canvas.value.addEventListener("mousemove", handleMouseMove);
             canvas.value.addEventListener("mouseup", handleMouseUp);
         });
@@ -52,7 +52,7 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
         for (const path of [...pathStack, currentPath]) {
             _ctx.beginPath();
             for (let i = 0; i < path.length; i++) {
-                const {x, y} = path[i];
+                const { x, y } = path[i];
                 if (i === 0) {
                     _ctx.moveTo(x, y);
                 } else {
@@ -74,8 +74,8 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
     }
 
     function handleMouseMove(e: MouseEvent) {
-        const {offsetX, offsetY} = e;
-        currentPath.push({x: offsetX, y: offsetY});
+        const { offsetX, offsetY } = e;
+        currentPath.push({ x: offsetX, y: offsetY });
         drawPath();
     }
 
@@ -116,11 +116,11 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
     }
 
 
- 
+
 
     // 设置回显数据
-    const setPathStack = (value:any)=>{
-        if(value){
+    const setPathStack = (value: any) => {
+        if (value) {
             pathStack = value;
             drawPathShow.value = [...pathStack];
             drawPath();
@@ -128,5 +128,5 @@ export function useCanvas(dom: string | HTMLCanvasElement, {
     }
 
 
-    return {handleUndo, handleRedo, handleExport,drawPathShow,setPathStack}
+    return { handleUndo, handleRedo, handleExport, drawPathShow, setPathStack }
 }
