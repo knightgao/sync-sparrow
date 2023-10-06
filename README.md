@@ -6,3 +6,7 @@
 
 谢谢你来玩
 
+## 代办事项
+前端用nuxt 实现
+页面仿照 https://store.steampowered.com/app/1483870/Draw__Guess/?l=schinese
+优先实现倒计时 输入验证等功能
