@@ -12,6 +12,7 @@ const game = (socket: Socket) => {
     return async ([event,param , cb]: MiddlewareArgs, next: MiddlewareNext) => {
         if(event.startsWith("game-room")){
             socket.join(`${event}`);
+            log(`${param}`)
             socket.to(`${event}`).emit(`${event}-listen`,param)
         }
         next()

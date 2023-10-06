@@ -9,11 +9,18 @@ const route = useRoute();
 
 let gameName = 'game-room-1';
 const { isConnected, socket } = useSocket();
+
 onMounted(
     () => {
       if(route.params.id){
         gameName = `game-room-${route.params.id}`;
       }
+      socket.on(`${gameName}-listen`,value=>{
+        if(!isDrawer.value){
+          const pathList = JSON.parse(value) || [];
+          setPathStack(pathList);
+        }
+      })
       socket.emit(gameName, "" );
     }
 )
@@ -23,7 +30,6 @@ onMounted(
 const isDrawer = ref(false);
 watch([isConnected,drawPathShow], function (value) {
       if (value?.[0]) {
-        console.log("unref(value?.[1])",value?.[1])
         if(isDrawer.value){
           socket.emit(gameName, JSON.stringify(value?.[1]) );
         }
@@ -31,16 +37,6 @@ watch([isConnected,drawPathShow], function (value) {
     }
 )
 
-onMounted(
-    ()=>{
-      socket.on("game-room-1-listen",value=>{
-        if(!isDrawer.value){
-          const pathList = JSON.parse(value) || [];
-          setPathStack(pathList);
-        }
-      })
-    }
-)
 
 
 
