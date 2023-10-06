@@ -21,7 +21,7 @@ onMounted(
           setPathStack(pathList);
         }
       })
-      socket.emit(gameName, "" );
+      socket.emit("want-join-room", gameName );
     }
 )
 

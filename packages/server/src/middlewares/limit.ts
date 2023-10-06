@@ -6,15 +6,17 @@ declare type MiddlewareArgs = Array<any>;
 declare type MiddlewareNext = () => void;
 
 /**
- * 开始玩游戏
+ * 限制加入房间
  */
-const game = (socket: Socket) => {
+const limit = (socket: Socket) => {
     return async ([event,param , cb]: MiddlewareArgs, next: MiddlewareNext) => {
-        if(event.startsWith("game-room")){
-            socket.to(`${event}`).emit(`${event}-listen`,param)
+        if(event === "want-join-room"){
+            if(param){
+                socket.join(`${param}`);
+            }
         }
         next()
     };
 }
 
-export default game;
+export default limit;

@@ -3,6 +3,7 @@ import http from 'http';
 import { Server } from "socket.io";
 import Router from '@koa/router';
 import game from './middlewares/game';
+import limit from './middlewares/limit';
 import { registerRoutes } from './routes';
 
 const app = new Koa();
@@ -31,7 +32,9 @@ io.on('connection', (socket) => {
         console.log('A user disconnected');
     });
 
+    socket.use(limit(socket));
     socket.use(game(socket));
+
 });
 
 io.of("/").adapter.on("join-room", (room, id) => {
